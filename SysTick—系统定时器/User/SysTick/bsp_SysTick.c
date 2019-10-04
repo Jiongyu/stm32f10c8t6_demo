@@ -6,18 +6,18 @@
 static __IO u32 TimingDelay;
  
 /**
-  * @brief  启动系统滴答定时器 SysTick
-  * @param  无
-  * @retval 无
+  * @brief  锟斤拷锟斤拷系统锟轿达拷时锟斤拷 SysTick
+  * @param  锟斤拷
+  * @retval 锟斤拷
   */
 void SysTick_Init(void)
 {
-	/* SystemFrequency / 1000    1ms中断一次
-	 * SystemFrequency / 100000	 10us中断一次
-	 * SystemFrequency / 1000000 1us中断一次
+	/* SystemFrequency / 1000    1ms锟叫讹拷一锟斤拷
+	 * SystemFrequency / 100000	 10us锟叫讹拷一锟斤拷
+	 * SystemFrequency / 1000000 1us锟叫讹拷一锟斤拷
 	 */
-//	if (SysTick_Config(SystemFrequency / 100000))	// ST3.0.0库版本
-	if (SysTick_Config(SystemCoreClock / 100000))	// ST3.5.0库版本
+//	if (SysTick_Config(SystemFrequency / 100000))	// ST3.0.0锟斤拷姹?
+	if (SysTick_Config(SystemCoreClock / 100000))	// ST3.5.0锟斤拷姹?
 	{ 
 		/* Capture error */ 
 		while (1);
@@ -25,26 +25,26 @@ void SysTick_Init(void)
 }
 
 /**
-  * @brief   us延时程序,10us为一个单位
+  * @brief   us锟斤拷时锟斤拷锟斤拷,10us为一锟斤拷锟斤拷位
   * @param  
-  *		@arg nTime: Delay_us( 1 ) 则实现的延时为 1 * 10us = 10us
-  * @retval  无
+  *		@arg nTime: Delay_us( 1 ) 锟斤拷实锟街碉拷锟斤拷时为 1 * 10us = 10us
+  * @retval  锟斤拷
   */
 void Delay_us(__IO u32 nTime)
 { 
 	TimingDelay = nTime;	
 
-	// 使能滴答定时器  
+	// 使锟杰滴达拷时锟斤拷  
 	SysTick->CTRL |=  SysTick_CTRL_ENABLE_Msk;
 
 	while(TimingDelay != 0);
 }
 
 /**
-  * @brief  获取节拍程序
-  * @param  无
-  * @retval 无
-  * @attention  在 SysTick 中断函数 SysTick_Handler()调用
+  * @brief  锟斤拷取锟斤拷锟侥筹拷锟斤拷
+  * @param  锟斤拷
+  * @retval 锟斤拷
+  * @attention  锟斤拷 SysTick 锟叫断猴拷锟斤拷 SysTick_Handler()锟斤拷锟斤拷
   */
 void TimingDelay_Decrement(void)
 {
@@ -55,24 +55,24 @@ void TimingDelay_Decrement(void)
 }
 
 #if 0
-// 这个 固件库函数 在 core_cm3.h中
+// 锟斤拷锟? 锟教硷拷锟解函锟斤拷 锟斤拷 core_cm3.h锟斤拷
 static __INLINE uint32_t SysTick_Config(uint32_t ticks)
 { 
-  // reload 寄存器为24bit，最大值为2^24
+  // reload 锟侥达拷锟斤拷为24bit锟斤拷锟斤拷锟街滴?2^24
 	if (ticks > SysTick_LOAD_RELOAD_Msk)  return (1);
   
-  // 配置 reload 寄存器的初始值	
+  // 锟斤拷锟斤拷 reload 锟侥达拷锟斤拷锟侥筹拷始值	
   SysTick->LOAD  = (ticks & SysTick_LOAD_RELOAD_Msk) - 1;
 	
-	// 配置中断优先级为 1<<4-1 = 15，优先级为最低
+	// 锟斤拷锟斤拷锟叫讹拷锟斤拷锟饺硷拷为 1<<4-1 = 15锟斤拷锟斤拷锟饺硷拷为锟斤拷锟?
   NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1); 
 	
-	// 配置 counter 计数器的值
+	// 锟斤拷锟斤拷 counter 锟斤拷锟斤拷锟斤拷锟斤拷值
   SysTick->VAL   = 0;
 	
-	// 配置systick 的时钟为 72M
-	// 使能中断
-	// 使能systick
+	// 锟斤拷锟斤拷systick 锟斤拷时锟斤拷为 72M
+	// 使锟斤拷锟叫讹拷
+	// 使锟斤拷systick
   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | 
                    SysTick_CTRL_TICKINT_Msk   | 
                    SysTick_CTRL_ENABLE_Msk;                    
@@ -80,10 +80,10 @@ static __INLINE uint32_t SysTick_Config(uint32_t ticks)
 }
 #endif
 
-// couter 减1的时间 等于 1/systick_clk
-// 当counter 从 reload 的值减小到0的时候，为一个循环，如果开启了中断则执行中断服务程序，
-// 同时 CTRL 的 countflag 位会置1
-// 这一个循环的时间为 reload * (1/systick_clk)
+// couter 锟斤拷1锟斤拷时锟斤拷 锟斤拷锟斤拷 1/systick_clk
+// 锟斤拷counter 锟斤拷 reload 锟斤拷值锟斤拷小锟斤拷0锟斤拷时锟斤拷为一锟斤拷循锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷卸锟斤拷锟街达拷锟斤拷卸戏锟斤拷锟斤拷锟斤拷
+// 同时 CTRL 锟斤拷 countflag 位锟斤拷锟斤拷1
+// 锟斤拷一锟斤拷循锟斤拷锟斤拷时锟斤拷为 reload * (1/systick_clk)
 
 void SysTick_Delay_Us( __IO uint32_t us)
 {
@@ -92,10 +92,10 @@ void SysTick_Delay_Us( __IO uint32_t us)
 	
 	for(i=0;i<us;i++)
 	{
-		// 当计数器的值减小到0的时候，CRTL寄存器的位16会置1	
+		// 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷值锟斤拷小锟斤拷0锟斤拷时锟斤拷CRTL锟侥达拷锟斤拷锟斤拷位16锟斤拷锟斤拷1	
 		while( !((SysTick->CTRL)&(1<<16)) );
 	}
-	// 关闭SysTick定时器
+	// 锟截憋拷SysTick锟斤拷时锟斤拷
 	SysTick->CTRL &=~SysTick_CTRL_ENABLE_Msk;
 }
 
@@ -106,11 +106,11 @@ void SysTick_Delay_Ms( __IO uint32_t ms)
 	
 	for(i=0;i<ms;i++)
 	{
-		// 当计数器的值减小到0的时候，CRTL寄存器的位16会置1
-		// 当置1时，读取该位会清0
+		// 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷值锟斤拷小锟斤拷0锟斤拷时锟斤拷CRTL锟侥达拷锟斤拷锟斤拷位16锟斤拷锟斤拷1
+		// 锟斤拷锟斤拷1时锟斤拷锟斤拷取锟斤拷位锟斤拷锟斤拷0
 		while( !((SysTick->CTRL)&(1<<16)) );
 	}
-	// 关闭SysTick定时器
+	// 锟截憋拷SysTick锟斤拷时锟斤拷
 	SysTick->CTRL &=~ SysTick_CTRL_ENABLE_Msk;
 }
 
