@@ -21,9 +21,12 @@
 #include "stm32f10x.h"
 #include "./usart/bsp_usart.h"
 #include "./temp/bsp_tempad.h"
+#include "./GeneralTim/bsp_GeneralTim.h"
 
 /* ADC1转换的电压值通过MDA方式传到sram*/
 extern __IO u16 ADC_ConvertedValue;
+
+uint32_t time = 0;
 
 
 /*计算后的温度值*/
@@ -46,9 +49,15 @@ void Delay(__IO u32 nCount)
  * 输入  : 无
  * 输出  ：无
  */
+
+
+
+
 int main(void)
 {		 
 	USART_Config();
+	
+	GENERAL_TIM_Init();
 
 	Temp_ADC1_Init();
 
@@ -60,7 +69,8 @@ int main(void)
   while (1)
   { 
 
-	Delay(0xffffee);      // 延时 
+	if(time == 1000){     // 延时 1s
+		time =0;
 	
 	//计算方法参考《STM32数据手册》
 	//计算方法1            	                 									  
@@ -74,6 +84,7 @@ int main(void)
  	 
 	//16进制显示 						 
  	// printf("\r\n The current temperature= %04x \r\n", Current_Temp);		 
-  }
-}
+		}
+	}
 
+}

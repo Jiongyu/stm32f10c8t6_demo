@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD, USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\usart</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\usart;..\..\User\GeneralTim</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -568,6 +568,11 @@
               <FileName>bsp_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\usart\bsp_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_GeneralTim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\GeneralTim\bsp_GeneralTim.c</FilePath>
             </File>
           </Files>
         </Group>
